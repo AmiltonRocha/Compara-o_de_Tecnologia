@@ -1,0 +1,280 @@
+openapi: 3.0.3
+info:
+  title: Music Streaming Service (REST)
+  version: 1.0.0
+  description: Contrato REST do serviço de streaming de músicas, compartilhado pelas 3 linguagens.
+servers:
+  - url: http://localhost:8000
+paths:
+  /users:
+    get:
+      operationId: listUsers
+      responses:
+        "200":
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/User" }
+    post:
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UserInput" }
+      responses:
+        "201":
+          description: Usuário criado
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+  /users/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: getUser
+      responses:
+        "200":
+          description: Usuário
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "404": { description: Não encontrado }
+    put:
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UserUpdateInput" }
+      responses:
+        "200":
+          description: Usuário atualizado
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "404": { description: Não encontrado }
+    delete:
+      operationId: deleteUser
+      responses:
+        "204": { description: Removido }
+        "404": { description: Não encontrado }
+  /users/{id}/playlists:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: listPlaylistsByUser
+      responses:
+        "200":
+          description: Playlists do usuário
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Playlist" }
+  /musics:
+    get:
+      operationId: listMusics
+      responses:
+        "200":
+          description: Lista de músicas
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Music" }
+    post:
+      operationId: createMusic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MusicInput" }
+      responses:
+        "201":
+          description: Música criada
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Music" }
+  /musics/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: getMusic
+      responses:
+        "200":
+          description: Música
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Music" }
+        "404": { description: Não encontrada }
+    put:
+      operationId: updateMusic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MusicUpdateInput" }
+      responses:
+        "200":
+          description: Música atualizada
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Music" }
+        "404": { description: Não encontrada }
+    delete:
+      operationId: deleteMusic
+      responses:
+        "204": { description: Removida }
+        "404": { description: Não encontrada }
+  /musics/{id}/playlists:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: listPlaylistsByMusic
+      responses:
+        "200":
+          description: Playlists que contêm a música
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Playlist" }
+  /playlists:
+    get:
+      operationId: listPlaylists
+      responses:
+        "200":
+          description: Lista de playlists
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Playlist" }
+    post:
+      operationId: createPlaylist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlaylistInput" }
+      responses:
+        "201":
+          description: Playlist criada
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Playlist" }
+  /playlists/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: getPlaylist
+      responses:
+        "200":
+          description: Playlist
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Playlist" }
+        "404": { description: Não encontrada }
+    put:
+      operationId: updatePlaylist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PlaylistUpdateInput" }
+      responses:
+        "200":
+          description: Playlist atualizada
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Playlist" }
+        "404": { description: Não encontrada }
+    delete:
+      operationId: deletePlaylist
+      responses:
+        "204": { description: Removida }
+        "404": { description: Não encontrada }
+  /playlists/{id}/musics:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: integer } }
+    get:
+      operationId: listMusicsByPlaylist
+      responses:
+        "200":
+          description: Músicas da playlist
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Music" }
+components:
+  schemas:
+    User:
+      type: object
+      required: [id, name, email]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        email: { type: string }
+    UserInput:
+      type: object
+      required: [name, email]
+      properties:
+        name: { type: string }
+        email: { type: string }
+    UserUpdateInput:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string }
+    Music:
+      type: object
+      required: [id, title, artist, durationSeconds]
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        artist: { type: string }
+        durationSeconds: { type: integer }
+    MusicInput:
+      type: object
+      required: [title, artist, durationSeconds]
+      properties:
+        title: { type: string }
+        artist: { type: string }
+        durationSeconds: { type: integer }
+    MusicUpdateInput:
+      type: object
+      properties:
+        title: { type: string }
+        artist: { type: string }
+        durationSeconds: { type: integer }
+    Playlist:
+      type: object
+      required: [id, name, ownerId, musicIds]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        ownerId: { type: integer }
+        musicIds:
+          type: array
+          items: { type: integer }
+    PlaylistInput:
+      type: object
+      required: [name, ownerId]
+      properties:
+        name: { type: string }
+        ownerId: { type: integer }
+        musicIds:
+          type: array
+          items: { type: integer }
+    PlaylistUpdateInput:
+      type: object
+      properties:
+        name: { type: string }
+        ownerId: { type: integer }
+        musicIds:
+          type: array
+          items: { type: integer }

@@ -1,0 +1,114 @@
+// Especificação gRPC do serviço de streaming de músicas.
+// Deve ser idêntica nas 3 linguagens (Python, Java, TypeScript).
+
+syntax = "proto3";
+
+package music;
+
+service MusicService {
+  // Usuários
+  rpc ListUsers (Empty) returns (UserList);
+  rpc GetUser (IdRequest) returns (User);
+  rpc CreateUser (CreateUserRequest) returns (User);
+  rpc UpdateUser (UpdateUserRequest) returns (User);
+  rpc DeleteUser (IdRequest) returns (DeleteResponse);
+
+  // Músicas
+  rpc ListMusics (Empty) returns (MusicList);
+  rpc GetMusic (IdRequest) returns (Music);
+  rpc CreateMusic (CreateMusicRequest) returns (Music);
+  rpc UpdateMusic (UpdateMusicRequest) returns (Music);
+  rpc DeleteMusic (IdRequest) returns (DeleteResponse);
+
+  // Playlists
+  rpc ListPlaylists (Empty) returns (PlaylistList);
+  rpc GetPlaylist (IdRequest) returns (Playlist);
+  rpc CreatePlaylist (CreatePlaylistRequest) returns (Playlist);
+  rpc UpdatePlaylist (UpdatePlaylistRequest) returns (Playlist);
+  rpc DeletePlaylist (IdRequest) returns (DeleteResponse);
+
+  // Consultas relacionais
+  rpc ListPlaylistsByUser (IdRequest) returns (PlaylistList);
+  rpc ListMusicsByPlaylist (IdRequest) returns (MusicList);
+  rpc ListPlaylistsByMusic (IdRequest) returns (PlaylistList);
+}
+
+message Empty {}
+
+message IdRequest {
+  int32 id = 1;
+}
+
+message DeleteResponse {
+  bool deleted = 1;
+}
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message Music {
+  int32 id = 1;
+  string title = 2;
+  string artist = 3;
+  int32 duration_seconds = 4;
+}
+
+message Playlist {
+  int32 id = 1;
+  string name = 2;
+  int32 owner_id = 3;
+  repeated int32 music_ids = 4;
+}
+
+message UserList {
+  repeated User users = 1;
+}
+
+message MusicList {
+  repeated Music musics = 1;
+}
+
+message PlaylistList {
+  repeated Playlist playlists = 1;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  optional string name = 2;
+  optional string email = 3;
+}
+
+message CreateMusicRequest {
+  string title = 1;
+  string artist = 2;
+  int32 duration_seconds = 3;
+}
+
+message UpdateMusicRequest {
+  int32 id = 1;
+  optional string title = 2;
+  optional string artist = 3;
+  optional int32 duration_seconds = 4;
+}
+
+message CreatePlaylistRequest {
+  string name = 1;
+  int32 owner_id = 2;
+  repeated int32 music_ids = 3;
+}
+
+message UpdatePlaylistRequest {
+  int32 id = 1;
+  optional string name = 2;
+  optional int32 owner_id = 3;
+  // repeated não tem presença em proto3: lista vazia significa "não alterar"
+  repeated int32 music_ids = 4;
+}

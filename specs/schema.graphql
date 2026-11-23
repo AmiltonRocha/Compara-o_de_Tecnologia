@@ -1,0 +1,84 @@
+# Especificação GraphQL do serviço de streaming de músicas.
+# Deve ser idêntica nas 3 linguagens (Python, Java, TypeScript).
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  playlists: [Playlist!]!
+}
+
+type Music {
+  id: Int!
+  title: String!
+  artist: String!
+  durationSeconds: Int!
+  playlists: [Playlist!]!
+}
+
+type Playlist {
+  id: Int!
+  name: String!
+  ownerId: Int!
+  owner: User!
+  musicIds: [Int!]!
+  musics: [Music!]!
+}
+
+input UserInput {
+  name: String!
+  email: String!
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+}
+
+input MusicInput {
+  title: String!
+  artist: String!
+  durationSeconds: Int!
+}
+
+input MusicUpdateInput {
+  title: String
+  artist: String
+  durationSeconds: Int
+}
+
+input PlaylistInput {
+  name: String!
+  ownerId: Int!
+  musicIds: [Int!] = []
+}
+
+input PlaylistUpdateInput {
+  name: String
+  ownerId: Int
+  musicIds: [Int!]
+}
+
+type Query {
+  users: [User!]!
+  user(id: Int!): User
+  musics: [Music!]!
+  music(id: Int!): Music
+  playlists: [Playlist!]!
+  playlist(id: Int!): Playlist
+  playlistsByUser(userId: Int!): [Playlist!]!
+  musicsByPlaylist(playlistId: Int!): [Music!]!
+  playlistsByMusic(musicId: Int!): [Playlist!]!
+}
+
+type Mutation {
+  createUser(input: UserInput!): User!
+  updateUser(id: Int!, input: UserUpdateInput!): User
+  deleteUser(id: Int!): Boolean!
+  createMusic(input: MusicInput!): Music!
+  updateMusic(id: Int!, input: MusicUpdateInput!): Music
+  deleteMusic(id: Int!): Boolean!
+  createPlaylist(input: PlaylistInput!): Playlist!
+  updatePlaylist(id: Int!, input: PlaylistUpdateInput!): Playlist
+  deletePlaylist(id: Int!): Boolean!
+}

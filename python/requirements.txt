@@ -1,0 +1,11 @@
+# Python 3.12
+fastapi>=0.115
+uvicorn[standard]>=0.30
+strawberry-graphql>=0.235
+grpcio>=1.66
+grpcio-tools>=1.66
+zeep>=4.2
+requests>=2.32
+locust>=2.31
+# opcional: geração de gráficos (load-tests/plot.py)
+matplotlib>=3.9

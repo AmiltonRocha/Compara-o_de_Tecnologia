@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://music.example.com/wsdl"
+    targetNamespace="http://music.example.com/wsdl"
+    name="MusicService">
+
+  <types>
+    <xsd:schema targetNamespace="http://music.example.com/wsdl" elementFormDefault="qualified">
+      <xsd:complexType name="User">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+          <xsd:element name="name" type="xsd:string"/>
+          <xsd:element name="email" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="Music">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+          <xsd:element name="title" type="xsd:string"/>
+          <xsd:element name="artist" type="xsd:string"/>
+          <xsd:element name="durationSeconds" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="Playlist">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+          <xsd:element name="name" type="xsd:string"/>
+          <xsd:element name="ownerId" type="xsd:int"/>
+          <xsd:element name="musicIds" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- ===== Usuários ===== -->
+      <xsd:element name="ListUsers">
+        <xsd:complexType><xsd:sequence/></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ListUsersResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="users" type="tns:User" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GetUser">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetUserResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="user" type="tns:User"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="CreateUser">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="name" type="xsd:string"/>
+          <xsd:element name="email" type="xsd:string"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CreateUserResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="user" type="tns:User"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="UpdateUser">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+          <xsd:element name="name" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="email" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="UpdateUserResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="user" type="tns:User"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="DeleteUser">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="DeleteUserResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="deleted" type="xsd:boolean"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <!-- ===== Músicas ===== -->
+      <xsd:element name="ListMusics">
+        <xsd:complexType><xsd:sequence/></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ListMusicsResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="musics" type="tns:Music" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GetMusic">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetMusicResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="music" type="tns:Music"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="CreateMusic">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="title" type="xsd:string"/>
+          <xsd:element name="artist" type="xsd:string"/>
+          <xsd:element name="durationSeconds" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CreateMusicResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="music" type="tns:Music"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="UpdateMusic">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+          <xsd:element name="title" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="artist" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="durationSeconds" type="xsd:int" minOccurs="0"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="UpdateMusicResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="music" type="tns:Music"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="DeleteMusic">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="DeleteMusicResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="deleted" type="xsd:boolean"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <!-- ===== Playlists ===== -->
+      <xsd:element name="ListPlaylists">
+        <xsd:complexType><xsd:sequence/></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ListPlaylistsResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlists" type="tns:Playlist" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GetPlaylist">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetPlaylistResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlist" type="tns:Playlist"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="CreatePlaylist">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="name" type="xsd:string"/>
+          <xsd:element name="ownerId" type="xsd:int"/>
+          <xsd:element name="musicIds" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="CreatePlaylistResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlist" type="tns:Playlist"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="UpdatePlaylist">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+          <xsd:element name="name" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="ownerId" type="xsd:int" minOccurs="0"/>
+          <xsd:element name="musicIds" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="UpdatePlaylistResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlist" type="tns:Playlist"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="DeletePlaylist">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="DeletePlaylistResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="deleted" type="xsd:boolean"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <!-- ===== Consultas relacionais ===== -->
+      <xsd:element name="ListPlaylistsByUser">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="userId" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ListPlaylistsByUserResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlists" type="tns:Playlist" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="ListMusicsByPlaylist">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlistId" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ListMusicsByPlaylistResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="musics" type="tns:Music" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="ListPlaylistsByMusic">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="musicId" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ListPlaylistsByMusicResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="playlists" type="tns:Playlist" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <!-- ===== Mensagens ===== -->
+  <message name="ListUsersInput"><part name="parameters" element="tns:ListUsers"/></message>
+  <message name="ListUsersOutput"><part name="parameters" element="tns:ListUsersResponse"/></message>
+  <message name="GetUserInput"><part name="parameters" element="tns:GetUser"/></message>
+  <message name="GetUserOutput"><part name="parameters" element="tns:GetUserResponse"/></message>
+  <message name="CreateUserInput"><part name="parameters" element="tns:CreateUser"/></message>
+  <message name="CreateUserOutput"><part name="parameters" element="tns:CreateUserResponse"/></message>
+  <message name="UpdateUserInput"><part name="parameters" element="tns:UpdateUser"/></message>
+  <message name="UpdateUserOutput"><part name="parameters" element="tns:UpdateUserResponse"/></message>
+  <message name="DeleteUserInput"><part name="parameters" element="tns:DeleteUser"/></message>
+  <message name="DeleteUserOutput"><part name="parameters" element="tns:DeleteUserResponse"/></message>
+
+  <message name="ListMusicsInput"><part name="parameters" element="tns:ListMusics"/></message>
+  <message name="ListMusicsOutput"><part name="parameters" element="tns:ListMusicsResponse"/></message>
+  <message name="GetMusicInput"><part name="parameters" element="tns:GetMusic"/></message>
+  <message name="GetMusicOutput"><part name="parameters" element="tns:GetMusicResponse"/></message>
+  <message name="CreateMusicInput"><part name="parameters" element="tns:CreateMusic"/></message>
+  <message name="CreateMusicOutput"><part name="parameters" element="tns:CreateMusicResponse"/></message>
+  <message name="UpdateMusicInput"><part name="parameters" element="tns:UpdateMusic"/></message>
+  <message name="UpdateMusicOutput"><part name="parameters" element="tns:UpdateMusicResponse"/></message>
+  <message name="DeleteMusicInput"><part name="parameters" element="tns:DeleteMusic"/></message>
+  <message name="DeleteMusicOutput"><part name="parameters" element="tns:DeleteMusicResponse"/></message>
+
+  <message name="ListPlaylistsInput"><part name="parameters" element="tns:ListPlaylists"/></message>
+  <message name="ListPlaylistsOutput"><part name="parameters" element="tns:ListPlaylistsResponse"/></message>
+  <message name="GetPlaylistInput"><part name="parameters" element="tns:GetPlaylist"/></message>
+  <message name="GetPlaylistOutput"><part name="parameters" element="tns:GetPlaylistResponse"/></message>
+  <message name="CreatePlaylistInput"><part name="parameters" element="tns:CreatePlaylist"/></message>
+  <message name="CreatePlaylistOutput"><part name="parameters" element="tns:CreatePlaylistResponse"/></message>
+  <message name="UpdatePlaylistInput"><part name="parameters" element="tns:UpdatePlaylist"/></message>
+  <message name="UpdatePlaylistOutput"><part name="parameters" element="tns:UpdatePlaylistResponse"/></message>
+  <message name="DeletePlaylistInput"><part name="parameters" element="tns:DeletePlaylist"/></message>
+  <message name="DeletePlaylistOutput"><part name="parameters" element="tns:DeletePlaylistResponse"/></message>
+
+  <message name="ListPlaylistsByUserInput"><part name="parameters" element="tns:ListPlaylistsByUser"/></message>
+  <message name="ListPlaylistsByUserOutput"><part name="parameters" element="tns:ListPlaylistsByUserResponse"/></message>
+  <message name="ListMusicsByPlaylistInput"><part name="parameters" element="tns:ListMusicsByPlaylist"/></message>
+  <message name="ListMusicsByPlaylistOutput"><part name="parameters" element="tns:ListMusicsByPlaylistResponse"/></message>
+  <message name="ListPlaylistsByMusicInput"><part name="parameters" element="tns:ListPlaylistsByMusic"/></message>
+  <message name="ListPlaylistsByMusicOutput"><part name="parameters" element="tns:ListPlaylistsByMusicResponse"/></message>
+
+  <!-- ===== PortType ===== -->
+  <portType name="MusicServicePortType">
+    <operation name="ListUsers">
+      <input message="tns:ListUsersInput"/><output message="tns:ListUsersOutput"/>
+    </operation>
+    <operation name="GetUser">
+      <input message="tns:GetUserInput"/><output message="tns:GetUserOutput"/>
+    </operation>
+    <operation name="CreateUser">
+      <input message="tns:CreateUserInput"/><output message="tns:CreateUserOutput"/>
+    </operation>
+    <operation name="UpdateUser">
+      <input message="tns:UpdateUserInput"/><output message="tns:UpdateUserOutput"/>
+    </operation>
+    <operation name="DeleteUser">
+      <input message="tns:DeleteUserInput"/><output message="tns:DeleteUserOutput"/>
+    </operation>
+
+    <operation name="ListMusics">
+      <input message="tns:ListMusicsInput"/><output message="tns:ListMusicsOutput"/>
+    </operation>
+    <operation name="GetMusic">
+      <input message="tns:GetMusicInput"/><output message="tns:GetMusicOutput"/>
+    </operation>
+    <operation name="CreateMusic">
+      <input message="tns:CreateMusicInput"/><output message="tns:CreateMusicOutput"/>
+    </operation>
+    <operation name="UpdateMusic">
+      <input message="tns:UpdateMusicInput"/><output message="tns:UpdateMusicOutput"/>
+    </operation>
+    <operation name="DeleteMusic">
+      <input message="tns:DeleteMusicInput"/><output message="tns:DeleteMusicOutput"/>
+    </operation>
+
+    <operation name="ListPlaylists">
+      <input message="tns:ListPlaylistsInput"/><output message="tns:ListPlaylistsOutput"/>
+    </operation>
+    <operation name="GetPlaylist">
+      <input message="tns:GetPlaylistInput"/><output message="tns:GetPlaylistOutput"/>
+    </operation>
+    <operation name="CreatePlaylist">
+      <input message="tns:CreatePlaylistInput"/><output message="tns:CreatePlaylistOutput"/>
+    </operation>
+    <operation name="UpdatePlaylist">
+      <input message="tns:UpdatePlaylistInput"/><output message="tns:UpdatePlaylistOutput"/>
+    </operation>
+    <operation name="DeletePlaylist">
+      <input message="tns:DeletePlaylistInput"/><output message="tns:DeletePlaylistOutput"/>
+    </operation>
+
+    <operation name="ListPlaylistsByUser">
+      <input message="tns:ListPlaylistsByUserInput"/><output message="tns:ListPlaylistsByUserOutput"/>
+    </operation>
+    <operation name="ListMusicsByPlaylist">
+      <input message="tns:ListMusicsByPlaylistInput"/><output message="tns:ListMusicsByPlaylistOutput"/>
+    </operation>
+    <operation name="ListPlaylistsByMusic">
+      <input message="tns:ListPlaylistsByMusicInput"/><output message="tns:ListPlaylistsByMusicOutput"/>
+    </operation>
+  </portType>
+
+  <!-- ===== Binding ===== -->
+  <binding name="MusicServiceBinding" type="tns:MusicServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ListUsers"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="GetUser"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="CreateUser"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="UpdateUser"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="DeleteUser"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ListMusics"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="GetMusic"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="CreateMusic"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="UpdateMusic"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="DeleteMusic"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ListPlaylists"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="GetPlaylist"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="CreatePlaylist"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="UpdatePlaylist"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="DeletePlaylist"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ListPlaylistsByUser"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ListMusicsByPlaylist"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ListPlaylistsByMusic"><soap:operation soapAction=""/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  </binding>
+
+  <service name="MusicService">
+    <port name="MusicServicePort" binding="tns:MusicServiceBinding">
+      <soap:address location="http://localhost:8001/"/>
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,16 @@
+# Python
+python/.venv/
+__pycache__/
+*.pyc
+
+# Node
+typescript/node_modules/
+
+# Runtime
+python/.logs/
+python/.pids/
+typescript/.logs/
+typescript/.pids/
+
+# Java
+java/target/
